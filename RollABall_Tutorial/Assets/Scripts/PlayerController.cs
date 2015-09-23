@@ -5,13 +5,15 @@ using System.Collections;
 public class PlayerController : MonoBehaviour
 {	
 		public float speed;
-		public Text text;
+		public Text countText;
+		public Text winText;
 		private int count;
 	
 		void Start ()
 		{
 				count = 0;
-				text.text = "Count: 0";
+				countText.text = "Count: 0";
+				winText.text = "";
 		}
 	
 		void FixedUpdate ()
@@ -21,7 +23,7 @@ public class PlayerController : MonoBehaviour
 		
 				Vector3 movement = new Vector3 (horizontal, 0.0f, vertical);
 		
-				rigidbody.AddForce (movement * speed * Time.deltaTime);
+				GetComponent<Rigidbody> ().AddForce (movement * speed * Time.deltaTime);
 		}
 	
 		void OnTriggerEnter (Collider other)
@@ -31,7 +33,10 @@ public class PlayerController : MonoBehaviour
 				if (other.gameObject.tag == "PickUp") {
 						other.gameObject.SetActive (false);
 						++count;
-						text.text = "Count: " + count.ToString ();
+						countText.text = "Count: " + count.ToString ();
+						if (count == 12) {
+								winText.text = "You Win!!";
+						}
 				}
 		}
 }
